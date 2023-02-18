@@ -104,12 +104,12 @@ Inputs $(R^{W_C \times H_C \times 65})$ → Output$(R^{W\times H})$
 
   - Descriptor loss
 
-  - The descriptor loss is applied to all pairs ]of descriptor cells, $d_{hw} \in D$ from the first image and $d ’_{h’w’}$ ∈ D0 from the second image.
+  - The descriptor loss is applied to all pairs of descriptor cells, $d_{hw} \in D$ from the first image and $d ’_{h’w’}$ ∈ D0 from the second image.
 
   - The contrastive loss can be expressed mathematically as:
 
   $$
-  ⁍
+  L = (1-Y)*||x_i - x_j||^2*max(0,m-||x_i-x_j||^2)
   $$
 
   - GPT explaination
@@ -119,17 +119,20 @@ Inputs $(R^{W_C \times H_C \times 65})$ → Output$(R^{W\times H})$
   There are two main components to the loss function in SuperPoint: the keypoint loss and the descriptor loss.
 
   1. Keypoint loss: The cross-entropy loss is a commonly used loss function in supervised learning problems, where the goal is to classify the input data into one of several categories. In the case of SuperPoint, the keypoint loss is used to classify each pixel in the image as either a keypoint or a non-keypoint.
-
-     $L_{keypoint} = -\frac{1}{N} \sum_{i=1}^{N} [y_i \log(p_i) + (1 - y_i) \log(1 - p_i)]$
+     $$
+     L_{keypoint} = -\frac{1}{N} \sum_{i=1}^{N} [y_i \log(p_i) + (1 - y_i) \log(1 - p_i)]
+     $$
+     
 
      where N is the number of pixels in the image, y_i is the ground-truth label for pixel i (1 for keypoint, 0 for non-keypoint), and p_i is the predicted probability that pixel i is a keypoint.
 
-     where N is the number of keypoints, $p_i$ is the ground-truth keypoint position, and $p'_i$ is the predicted keypoint position. The keypoint loss is typically a mean squared error (MSE) loss, which measures the average squared difference between the predicted and ground-truth keypoints.
+     where N is the number of keypoints, P_i is the ground-truth keypoint position, and $p'_i$ is the predicted keypoint position. The keypoint loss is typically a mean squared error (MSE) loss, which measures the average squared difference between the predicted and ground-truth keypoints.
 
   2. Descriptor loss: The descriptor loss is a measure of the difference between the predicted descriptors and the ground-truth descriptors. The descriptor loss can be expressed mathematically as:
 
-     $L_{descriptor} = \frac{1}{N} * sum_{i=1}^{N} ||d_i - d'_i||^2,$
-
+     $$
+     L_{descriptor} = \frac{1}{N} * sum_{i=1}^{N} ||d_i - d'_i||^2
+     $$
      where N is the number of keypoints, $d_i$ is the ground-truth descriptor, and $`d'_i`$ is the predicted descriptor. The descriptor loss is also typically a MSE loss, which measures the average squared difference between the predicted and ground-truth descriptors.
 
   The total loss function in SuperPoint is a combination of the keypoint loss and the descriptor loss:
@@ -146,23 +149,26 @@ Mean Average Precision (mAP) is a common evaluation metric used in object detect
 
 The formula for mAP is defined as:
 
-$mAP = \frac{1}{Q} \sum_{q=1}^{Q} \frac{1}{|D_q|} \sum_{k=1}^{|D_q|} \text{Precision}(k) \cdot [\text{Rel}(k) = 1]$
-
+$$
+mAP = \frac{1}{Q} \sum_{q=1}^{Q} \frac{1}{|D_q|} \sum_{k=1}^{|D_q|} \text{Precision}(k) \cdot [\text{Rel}(k) = 1]
+$$
 where $Q$ is the number of query images, $D_q$ is the set of ground-truth bounding boxes for query image $q$, $|D_q|$ is the number of ground-truth bounding boxes in $D_q$, $\text{Rel}(k)$ is a binary variable indicating whether the $k$-th prediction is a true positive (1) or not (0), and $\text{Precision}(k)$ is the precision of the first $k$ predictions.
 
 The precision of the first $k$ predictions is defined as the ratio of the number of true positive detections to the total number of positive detections (true positive and false positive) up to the $k$-th prediction:
 
-$\text{Precision}(k) = \frac{\sum_{i=1}^{k} [\text{Rel}(i) = 1]}{k}$
-
+$$
+\text{Precision}(k) = \frac{\sum_{i=1}^{k} [\text{Rel}(i) = 1]}{k}
+$$
 mAP provides a single scalar value that summarizes the performance of a model on a set of images, and it is widely used in computer vision benchmarks, such as the PASCAL VOC and MS COCO datasets, to compare the performance of different models. A higher mAP value indicates a higher level of accuracy and recall in object detection and image retrieval tasks.
 
 - Repeatability
 
 Repeatability is typically expressed as a percentage of correctly detected and described keypoints. Given a set of images of the same scene, the repeatability $R$ can be calculated as:
 
-$R = \frac{\sum_{i=1}^{n} N_{correct}^i}{\sum_{i=1}^{n} N_{total}^i} \times 100%$
-
-where $n$ is the number of images in the set, $N_{correct}^i$ is the number of correctly detected and described keypoints in image $i$, and $N_{total}^i$ is the total number of keypoints detected in image $i$.
+$$
+R = \frac{\sum_{i=1}^{n} N_{correct}^i}{\sum_{i=1}^{n} N_{total}^i} \times 100%
+$$
+where $n$ is the number of images in the set, $N_{correct}^i $ is the number of correctly detected and described keypoints in image $i$, and $N_{total}^i$ is the total number of keypoints detected in image $i$.
 
 The calculation of repeatability involves the comparison of keypoints and descriptors across multiple images of the same scene, and it typically uses a distance metric, such as the Euclidean distance, to compare the descriptors of keypoints in different images. A threshold value is used to determine whether a keypoint is considered correctly detected and described, based on the distance between the descriptors of the keypoint in different images.
 
@@ -172,11 +178,12 @@ Non-Maximum Suppression (NMS) is a technique used in computer vision to reduce t
 
 The basic idea behind NMS is to keep the highest-scoring detection and remove all other detections that have a high overlap with the highest-scoring detection. The overlap between two bounding boxes is typically measured using the Intersection over Union (IoU) metric, which is defined as:
 
-$\text{IoU}(A, B) = \frac{\text{area}(A \cap B)}{\text{area}(A \cup B)}$
+$$
+\text{IoU}(A, B) = \frac{\text{area}(A \cap B)}{\text{area}(A \cup B)}
+$$
+where `A` and `B` are two bounding boxes, and `$\text{area}(\cdot)$` is the area of a bounding box. The IoU metric measures the overlap between two bounding boxes as the ratio of their intersecting area to their union area.
 
-where $A$ and $B$ are two bounding boxes, and $\text{area}(\cdot)$ is the area of a bounding box. The IoU metric measures the overlap between two bounding boxes as the ratio of their intersecting area to their union area.
-
-NMS works by first selecting the highest-scoring detection, and then removing all other detections that have an IoU with the highest-scoring detection greater than a threshold value $t$. The process is repeated until all detections have been processed.
+NMS works by first selecting the highest-scoring detection, and then removing all other detections that have an IoU with the highest-scoring detection greater than a threshold value `t`. The process is repeated until all detections have been processed.
 
 NMS is an important technique in object detection algorithms because it helps to reduce the number of false positive detections and to improve the accuracy of the detections. By removing overlapping detections, NMS helps to ensure that each object is represented by a single, high-scoring detection, which is important for tasks such as object tracking and recognition.
 
@@ -200,9 +207,9 @@ The average response of a feature detector or keypoint descriptor is calculated 
 
 Mathematically, the average response $R_{avg}$ can be expressed as:
 
-$R_{avg} = \frac{1}{N} \sum_{i=1}^{N} R_i$
-
+$$
+R_{avg} = \frac{1}{N} \sum_{i=1}^{N} R_i
+$$
 where $N$ is the number of feature detectors or keypoint descriptors in the set, and $R_i$ is the response or activation value of the $i^{th}$ feature detector or keypoint descriptor.
 
 The average response is a simple and effective metric for evaluating the performance of feature detection and description algorithms, and it provides a measure of the overall quality of the features and descriptors. A higher average response indicates a higher quality of the features and descriptors, and it is an important factor to consider in the selection and comparison of feature detection and description algorithms for computer vision applications.
-
