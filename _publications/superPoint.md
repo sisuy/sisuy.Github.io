@@ -1,5 +1,11 @@
-------
-
+---
+title: "SuperPoint learning Note"
+collection: publications
+permalink: /publication/2023-2-18-SuperPoint-learning-note
+excerpt: 'Something I learnt from superPoint paper'
+date: 2023-2-18
+venue: 'Journal 1'
+---
 # SuperPoint: Self-Supervised Interest Point Detection and Description
 
 ## 3. SuperPoint Architecture
