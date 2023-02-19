@@ -10,7 +10,7 @@ venue: 'Journal 1'
 
 ## 3. SuperPoint Architecture
 
-![Untitled](assets/Untitled.png)
+![Net architecture](../images/superpoint1.png)
 
 ### Innovation
 
@@ -100,7 +100,7 @@ Inputs $(R^{W_C \times H_C \times 65})$ → Output$(R^{W\times H})$
 
     - Softmax and cross entropy in a cell $h*w$
 
-      ![Untitled](assets/Untitled 1.png)
+      ![Untitled](../images/superpoint3.png)
 
   - Descriptor loss
 
@@ -133,7 +133,7 @@ Inputs $(R^{W_C \times H_C \times 65})$ → Output$(R^{W\times H})$
      $$
      L_{descriptor} = \frac{1}{N} * sum_{i=1}^{N} ||d_i - d'_i||^2
      $$
-     where N is the number of keypoints, $d_i$ is the ground-truth descriptor, and $`d'_i`$ is the predicted descriptor. The descriptor loss is also typically a MSE loss, which measures the average squared difference between the predicted and ground-truth descriptors.
+     where N is the number of keypoints, $d_i$ is the ground-truth descriptor, and $d'_i$ is the predicted descriptor. The descriptor loss is also typically a MSE loss, which measures the average squared difference between the predicted and ground-truth descriptors.
 
   The total loss function in SuperPoint is a combination of the keypoint loss and the descriptor loss:
 
@@ -189,7 +189,7 @@ NMS is an important technique in object detection algorithms because it helps to
 
 ## 5. Homographic adaptation
 
-![Untitled](assets/Untitled 2.png)
+![Homography adaptation](../images/superpoint2.png)
 
 Homographic adaptation is a technique used in the SuperPoint algorithm to align keypoints across multiple images taken from different viewpoints. The technique uses a homography matrix to map one image to the other, so that corresponding keypoints in the two images are aligned.
 
