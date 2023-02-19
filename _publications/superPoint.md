@@ -51,9 +51,8 @@ Inputs $(R^{W_C \times H_C \times 65})$ → Output$(R^{W\times H})$
   - In SuperPoint, the "dusbin" refers to the dual SuperPoint binarization. It is a technique used in the algorithm to improve the robustness of the keypoint extraction process.
   - In computer vision, the keypoint extraction process is used to identify and describe distinctive points in an image that are invariant to geometric and photometric transformations. To achieve this, the SuperPoint algorithm uses a combination of a feature extractor network and a descriptor network, both trained end-to-end on a large dataset of images.
   - The dual SuperPoint binarization is used to improve the robustness of the feature extractor network by creating two separate binary maps from the activations of the network. These binary maps are then combined to form a final binary map that is used to identify the keypoints in the image. The use of the dual SuperPoint binarization allows the algorithm to better handle changes in viewpoint, illumination, and partial occlusion, making it more robust and effective in a variety of real-world scenarios.
-
-- $**R^{W_C \times H_C \times 64}\rightarrow R^{W \times H}**$
-  - each pixel of the output corresponds to a probability of “point-ness” for that pixel in the input. Once the probability exceed a threshold, the pixiel will be detected as a interest point.
+  - $R^{W_C \times H_C \times 64}\rightarrow R^{W \times H}$
+    - each pixel of the output corresponds to a probability of “point-ness” for that pixel in the input. Once the probability exceed a threshold, the pixiel will be detected as a interest point.
 
 ### 3.3 Descriptor Decoder
 
